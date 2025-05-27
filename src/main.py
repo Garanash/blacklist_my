@@ -13,7 +13,7 @@ payments.register_handlers(bot)
 
 
 async def main():
-    await bot.polling(non_stop=True)
+    await bot.polling(non_stop=True, interval=2, timeout=20)
 
 if __name__ == '__main__':
     print("Бот начал работать")

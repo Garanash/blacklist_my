@@ -1,6 +1,6 @@
 from telebot.async_telebot import AsyncTeleBot
 from dotenv import dotenv_values
-from src.utils.keyboards import inline_menu_moderator
+from utils.keyboards import inline_menu_moderator
 
 config = dotenv_values(".env")
 

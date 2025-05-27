@@ -1,5 +1,5 @@
 from telebot.async_telebot import AsyncTeleBot
-from src.utils.keyboards import inline_menu
+from utils.keyboards import inline_menu
 
 
 def register_handlers(bot: AsyncTeleBot):

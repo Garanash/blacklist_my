@@ -1,6 +1,6 @@
 from telebot.async_telebot import AsyncTeleBot
 from telebot.types import CallbackQuery
-from src.utils.keyboards import inline_menu_moderator, inline_menu
+from utils.keyboards import inline_menu_moderator, inline_menu
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
