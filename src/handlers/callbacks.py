@@ -54,6 +54,7 @@ def register_handlers(bot: AsyncTeleBot):
                     chat_id=config['GROUP_ID'],
                     video_note=call.message.video_note.file_id,
                 )
+            # обычный комментарий
 
 
 
