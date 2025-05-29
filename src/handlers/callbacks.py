@@ -1,7 +1,16 @@
+import json
+
+from pyexpat.errors import messages
 from telebot.async_telebot import AsyncTeleBot
 from telebot.types import CallbackQuery
 from utils.keyboards import inline_menu_moderator, inline_menu
 from dotenv import dotenv_values
+
+class Obj:
+    def __init__(self, ot):
+        self.from_user = {}
+        self.from_user['id'] = ot.from_user.id
+        self.from_user['username'] = ot.from_user.username
 
 config = dotenv_values(".env")
 
@@ -16,15 +25,19 @@ def register_handlers(bot: AsyncTeleBot):
                 "🚫 Ненормативную лексику\n"
                 "🚫 Неприличные жесты\n\n"
                 "Спасибо, что делишься своим мнением! 💙</b>")
-        if call.data == 'button1':
-            await bot.send_message(chat_id=call.message.chat.id, text=text_rep, parse_mode='HTML',reply_markup=inline_menu())
-        elif call.data == 'button2':
+        callback_data = json.loads(call.data)
+        button = callback_data['btn']
+        cld = Obj(call.message)
+        print(cld.from_user)
+
+        if button == 'button1':
+            await bot.send_message(chat_id=call.from_user.id, text=text_rep, parse_mode='HTML',reply_markup=inline_menu(cld))
+            print(111)
+        elif button == 'button2':
             if call.message.text:
-                await bot.send_photo(
+                await bot.send_message(
                     chat_id=config['GROUP_ID'],
-                    photo=call.message.photo[-1].file_id,
-                    caption=call.message.caption,
-                    reply_markup=inline_menu_moderator()
+                    text=call.message.text,
                 )
             elif call.message.photo:
                 await bot.send_photo(
@@ -50,20 +63,22 @@ def register_handlers(bot: AsyncTeleBot):
                     voice=call.message.voice.file_id,
                 )
             elif call.message.video_note:
+                print("Video note file_id:", call.message.video_note.file_id)  # Логируем file_id
                 await bot.send_video_note(
                     chat_id=config['GROUP_ID'],
-                    video_note=call.message.video_note.file_id,
+                    data=call.message.video_note.file_id,
                 )
-            # обычный комментарий
-
-
-
-        elif call.data == 'button3':
             await bot.send_message(
-                chat_id=call.message.chat.id,
+                chat_id=callback_data['u_id'],
+                text='Ваше сообщение прошло модерацию успешно, Скоро вы увидите его в канале @blacklistbana',
+                parse_mode='Markdown'  # Опционально: для форматирования
+            )
+            await bot.answer_callback_query(call.id)
+
+        elif button == 'button3':
+            await bot.send_message(
+                chat_id=callback_data['u_id'],
                 text='Ваше сообщение не прошло модерацию, пожалуйста придерживайтесь правил группы(нет мата и нет неприличным жестам)',
                 parse_mode='Markdown'  # Опционально: для форматирования
             )
-
-        # Также можно ответить на callback, чтобы убрать часики у кнопки
-        await bot.answer_callback_query(call.id)
+            await bot.answer_callback_query(call.id)

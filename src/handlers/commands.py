@@ -1,5 +1,5 @@
 from telebot.async_telebot import AsyncTeleBot
-from utils.keyboards import inline_menu
+from utils.keyboards import main_menu_keyboard
 
 
 def register_handlers(bot: AsyncTeleBot):
@@ -24,9 +24,17 @@ def register_handlers(bot: AsyncTeleBot):
             "🚫 <b>Неприличных жестов (ну мы же культурные... почти 😉)</b>\n\n"
             "<b>Спасибо за ваши отзывы! 💙</b>",
             parse_mode='HTML',
-            reply_markup=inline_menu()
+            reply_markup=main_menu_keyboard()
         )
 
     @bot.message_handler(commands=['help'])
     async def help_cmd(message):
-        await bot.send_message(message.chat.id, "Это помощь!")
+        text_rep = ("ℹ️ Как оставить отзыв\n\n"
+                    "<b>Ты можешь отправить отзыв в любом удобном формате:\n\n"
+                    "🎥 Видео-кружок\n🎙 Голосовое сообщение\n📸 Фото\n📄 Документ\n💬 Текст</b>\n\n"
+                    "Все отзывы проходят модерацию и появляются в канале после проверки.\n\n"
+                    "❗️Пожалуйста, не используй:<b>\n"
+                    "🚫 Ненормативную лексику\n"
+                    "🚫 Неприличные жесты\n\n"
+                    "Спасибо, что делишься своим мнением! 💙</b>")
+        await bot.send_message(chat_id=message.chat.id, text=text_rep, parse_mode='HTML')
