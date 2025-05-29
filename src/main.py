@@ -3,7 +3,10 @@ from dotenv import dotenv_values
 import asyncio
 from handlers import commands, messages, callbacks, payments
 
-config = dotenv_values(".env")
+# config = dotenv_values(".env")
+config = {"TELEGRAM_BOT_TOKEN":'8078634784:AAEA526n7O1yGaIRYNDDGr0o0yIsaPcT7jU',
+            "TARGET_USER_ID" : 476409056,
+            "GROUP_ID" : -1002531170702}
 bot = AsyncTeleBot(config['TELEGRAM_BOT_TOKEN'])
 
 commands.register_handlers(bot)

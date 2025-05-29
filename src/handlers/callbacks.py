@@ -12,7 +12,10 @@ class Obj:
         self.from_user['id'] = ot.from_user.id
         self.from_user['username'] = ot.from_user.username
 
-config = dotenv_values(".env")
+# config = dotenv_values(".env")
+config = {"TELEGRAM_BOT_TOKEN":'8078634784:AAEA526n7O1yGaIRYNDDGr0o0yIsaPcT7jU',
+            "TARGET_USER_ID" : 476409056,
+            "GROUP_ID" : -1002531170702}
 
 def register_handlers(bot: AsyncTeleBot):
     @bot.callback_query_handler(func=lambda call: True)

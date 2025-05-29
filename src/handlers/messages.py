@@ -2,7 +2,10 @@ from telebot.async_telebot import AsyncTeleBot
 from dotenv import dotenv_values
 from utils.keyboards import inline_menu_moderator
 
-config = dotenv_values(".env")
+# config = dotenv_values(".env")
+config = {"TELEGRAM_BOT_TOKEN":'8078634784:AAEA526n7O1yGaIRYNDDGr0o0yIsaPcT7jU',
+            "TARGET_USER_ID" : 476409056,
+            "GROUP_ID" : -1002531170702}
 
 
 def register_handlers(bot: AsyncTeleBot):
